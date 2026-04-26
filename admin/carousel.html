@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin – Carousel | Community Hub</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/assets/css/main.css">
+    <style>
+        .admin-hero { background: linear-gradient(135deg, var(--teal) 0%, #1a5c53 100%); padding: 48px 0 36px; color: white; }
+        .admin-hero-inner { max-width: 1200px; margin: 0 auto; padding: 0 32px; }
+        .admin-hero-inner h1 { font-size: 1.9rem; font-weight: 800; letter-spacing: -0.03em; margin-bottom: 6px; }
+        .admin-hero-inner p { font-size: .95rem; opacity: .8; }
+
+        .admin-content { max-width: 1200px; margin: 40px auto; padding: 0 32px 80px; }
+
+        #admin-carousel-status { font-size: .88rem; font-weight: 600; padding: 10px 16px; border-radius: 8px; min-height: 38px; transition: all .3s; margin-bottom:20px; }
+        .status-info    { background: var(--blue-lt);  color: var(--blue);  }
+        .status-success { background: var(--green-lt); color: var(--green); }
+        .status-error   { background: var(--red-lt);   color: var(--red);   }
+        .status-        { display: none; }
+
+        .upload-card { background: var(--white); border: 1px solid var(--border); border-radius: var(--radius); padding: 24px; margin-bottom: 30px; box-shadow: var(--shadow); }
+        .upload-card h2 { font-size: 1.1rem; margin-bottom: 16px; }
+        
+        .upload-form { display: flex; gap: 16px; align-items: flex-end; flex-wrap: wrap; }
+        .form-group { flex: 1; min-width: 250px; }
+        .form-group label { display:block; font-size:.82rem; font-weight:700; color:var(--text-mid); margin-bottom:7px; text-transform:uppercase; letter-spacing:.05em; }
+        .form-group input { width:100%; padding:11px 14px; border:1.5px solid var(--border); border-radius:10px; font-family:inherit; font-size:.92rem; outline:none; transition:border-color .2s; background:var(--white); }
+        .form-group input:focus { border-color:var(--teal); }
+        
+        .carousel-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; }
+        .carousel-item { background: var(--white); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; box-shadow: var(--shadow); display: flex; flex-direction: column; }
+        .carousel-item img { width: 100%; height: 160px; object-fit: cover; background: #eee; }
+        .carousel-item-info { padding: 16px; display: flex; flex-direction: column; gap: 12px; flex: 1; }
+        .carousel-item-actions { display: flex; justify-content: space-between; align-items: center; margin-top: auto; }
+        .sort-input { width: 60px; padding: 6px; border: 1px solid var(--border); border-radius: 6px; text-align: center; }
+        .btn-delete { background: var(--red-lt); color: var(--red); border: none; padding: 6px 12px; border-radius: 8px; cursor: pointer; font-weight: 600; font-size: 0.8rem; }
+        .btn-delete:hover { background: var(--red); color: white; }
+        .btn-save-sort { background: var(--blue-lt); color: var(--blue); border: none; padding: 6px 12px; border-radius: 8px; cursor: pointer; font-weight: 600; font-size: 0.8rem; }
+        .btn-save-sort:hover { background: var(--blue); color: white; }
+    </style>
+</head>
+<body>
+
+    <div id="admin-header-placeholder"></div>
+
+    <div class="admin-hero">
+        <div class="admin-hero-inner">
+            <h1>🖼️ Homepage Carousel</h1>
+            <p>Manage the sliding hero images shown on the public homepage.</p>
+        </div>
+    </div>
+
+    <div class="admin-content">
+        <p id="admin-carousel-status"></p>
+
+        <!-- Upload New Image -->
+        <div class="upload-card">
+            <h2>Upload New Image</h2>
+            <form id="carousel-upload-form" class="upload-form">
+                <div class="form-group">
+                    <label for="carousel-image-file">Image File (Max 5MB)</label>
+                    <input type="file" id="carousel-image-file" accept="image/*" required>
+                </div>
+                <div class="form-group">
+                    <label for="carousel-image-alt">Alt Text / Description</label>
+                    <input type="text" id="carousel-image-alt" placeholder="e.g. Community Meetup">
+                </div>
+                <div class="form-group">
+                    <label for="carousel-image-sort">Sort Order (0 is first)</label>
+                    <input type="number" id="carousel-image-sort" value="0" required>
+                </div>
+                <button type="submit" class="btn-primary" id="carousel-upload-btn" style="padding: 13px 24px; font-size: .95rem; height: 46px;">Upload</button>
+            </form>
+        </div>
+
+        <!-- Current Images -->
+        <h2 style="font-size: 1.2rem; margin-bottom: 20px;">Current Images</h2>
+        <div class="carousel-grid" id="carousel-grid">
+            <!-- JS injects items here -->
+        </div>
+    </div>
+
+    <div id="footer-placeholder"></div>
+
+    <script type="module" src="/js/admin-main.js"></script>
+    <script type="module" src="/js/pages/admin-carousel-page.js"></script>
+</body>
+</html>

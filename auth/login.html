@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign In | Community Hub</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+        :root {
+            --teal: #f4831f; --teal-dark: #d96c0c;
+            --border: #e8e8e4; --bg: #fafaf8; --white: #ffffff;
+            --text-dark: #1e1e1e; --text-soft: #7a7a7a;
+            --green: #2e7d32; --green-lt: #e8f5e9;
+            --red: #c62828;   --red-lt: #ffebee;
+            --blue: #1565c0;  --blue-lt: #e3f0ff;
+        }
+        body { font-family:'Plus Jakarta Sans',system-ui,sans-serif; background:var(--bg); min-height:100vh; display:flex; flex-direction:column; color:var(--text-dark); }
+        main { flex:1; display:flex; align-items:center; justify-content:center; padding:40px 20px; }
+
+        .auth-card {
+            background: var(--white);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            box-shadow: 0 8px 40px rgba(0,0,0,0.09);
+            width: 100%;
+            max-width: 420px;
+            overflow: hidden;
+        }
+
+        .auth-card-header {
+            background: linear-gradient(135deg, #1a2e2b 0%, var(--teal) 100%);
+            padding: 32px 36px 28px;
+            text-align: center;
+            color: white;
+        }
+
+        .auth-card-header .logo { font-size: 2rem; margin-bottom: 8px; }
+        .auth-card-header h1 { font-size: 1.3rem; font-weight: 800; letter-spacing: -.02em; }
+        .auth-card-header p  { font-size: .85rem; opacity: .7; margin-top: 4px; }
+
+        .auth-card-body { padding: 32px 36px 36px; }
+
+        /* Status */
+        #auth-status {
+            padding: 10px 14px;
+            border-radius: 8px;
+            font-size: .85rem;
+            font-weight: 600;
+            margin-bottom: 18px;
+            display: none;
+        }
+        .auth-status-info    { display:block!important; background:var(--blue-lt);  color:var(--blue);  }
+        .auth-status-success { display:block!important; background:var(--green-lt); color:var(--green); }
+        .auth-status-error   { display:block!important; background:var(--red-lt);   color:var(--red);   }
+
+        .form-group { margin-bottom: 18px; }
+        .form-group label {
+            display: block; font-size: .78rem; font-weight: 700;
+            text-transform: uppercase; letter-spacing: .06em;
+            color: var(--text-soft); margin-bottom: 7px;
+        }
+        .form-group input {
+            width: 100%; padding: 11px 14px;
+            border: 1.5px solid var(--border); border-radius: 10px;
+            font-family: inherit; font-size: .92rem; outline: none;
+            transition: border-color .2s, box-shadow .2s;
+        }
+        .form-group input:focus {
+            border-color: var(--teal);
+            box-shadow: 0 0 0 3px rgba(43,122,111,.1);
+        }
+
+        #login-submit {
+            width: 100%; padding: 13px;
+            background: var(--teal); color: white;
+            border: none; border-radius: 10px;
+            font-family: inherit; font-size: .95rem; font-weight: 700;
+            cursor: pointer; transition: background .2s; margin-top: 4px;
+        }
+        #login-submit:hover    { background: var(--teal-dark); }
+        #login-submit:disabled { opacity: .6; cursor: not-allowed; }
+
+        .auth-note {
+            text-align: center; margin-top: 20px;
+            font-size: .82rem; color: var(--text-soft);
+        }
+    </style>
+    <link rel="stylesheet" href="/assets/css/main.css">
+</head>
+<body>
+
+    <div id="header-placeholder"></div>
+
+    <main>
+        <div class="auth-card">
+            <div class="auth-card-header">
+                <div class="logo">🏠</div>
+                <h1>Welcome Back</h1>
+                <p>Sign in to your Community Hub account</p>
+            </div>
+
+            <div class="auth-card-body">
+                <!--
+                    IDs connected to auth-login.js:
+                      #login-form     — form element
+                      #login-email    — email input
+                      #login-password — password input
+                      #login-submit   — submit button
+                      #auth-status    — status / error message
+                -->
+                <p id="auth-status"></p>
+
+                <form id="login-form" novalidate>
+
+                    <div class="form-group">
+                        <label for="login-email">Email</label>
+                        <input type="email" id="login-email" name="email"
+                               placeholder="name@example.com" required autocomplete="email">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="login-password">Password</label>
+                        <input type="password" id="login-password" name="password"
+                               placeholder="••••••••" required autocomplete="current-password">
+                    </div>
+
+                    <button type="submit" id="login-submit">Sign In</button>
+
+                </form>
+
+                <!-- Signup is invite-only — no public link shown -->
+                <p class="auth-note">Access is by invite only. Contact an admin to join.</p>
+            </div>
+        </div>
+    </main>
+
+    <div id="footer-placeholder"></div>
+
+    <script type="module" src="/js/main.js"></script>
+    <script type="module" src="/js/pages/auth-login.js"></script>
+
+</body>
+</html>

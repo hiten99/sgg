@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Events | Community Hub</title>
+    <meta name="description" content="Upcoming community events, meetups, and gatherings.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --saffron: #f4831f;
+            --saffron-lt: #fff4ea;
+            --teal: #2b7a6f;
+            --teal-lt: #e8f5f3;
+            --text-dark: #1e1e1e;
+            --text-mid: #4a4a4a;
+            --text-soft: #7a7a7a;
+            --border: #e8e8e4;
+            --bg: #fafaf8;
+            --white: #ffffff;
+            --radius: 16px;
+            --shadow: 0 4px 24px rgba(0,0,0,0.07);
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+            background: var(--bg);
+            color: var(--text-dark);
+            line-height: 1.6;
+        }
+
+        /* ── Hero ─────────────────────────────────────────────────────────── */
+        .events-hero {
+            background: linear-gradient(135deg, #1e1e2e 0%, #2b7a6f 100%);
+            padding: 60px 0 48px;
+            color: white;
+            text-align: center;
+        }
+
+        .events-hero h1 {
+            font-size: clamp(1.8rem, 4vw, 2.8rem);
+            font-weight: 800;
+            letter-spacing: -0.03em;
+            margin-bottom: 10px;
+        }
+
+        .events-hero p {
+            font-size: 1rem;
+            opacity: 0.75;
+        }
+
+        /* ── Controls bar ──────────────────────────────────────────────────── */
+        .events-controls {
+            max-width: 1200px;
+            margin: 32px auto 0;
+            padding: 0 32px;
+            display: flex;
+            gap: 12px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        /* Sort select */
+        #events-sort {
+            padding: 9px 14px;
+            border: 1.5px solid var(--border);
+            border-radius: 10px;
+            font-family: inherit;
+            font-size: 0.875rem;
+            font-weight: 600;
+            background: var(--white);
+            cursor: pointer;
+            outline: none;
+        }
+
+        #events-sort:focus { border-color: var(--teal); }
+
+        /* Event count */
+        #events-count {
+            font-size: 0.85rem;
+            color: var(--text-soft);
+            margin-left: auto;
+        }
+
+        /* ── Grid ─────────────────────────────────────────────────────────── */
+        .events-grid-wrap {
+            max-width: 1200px;
+            margin: 28px auto 0;
+            padding: 0 32px;
+        }
+
+        /* ID required by events-page.js — JS injects cards here */
+        #events-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 24px;
+        }
+
+        /* ── Event card ─────────────────────────────────────────────────────── */
+        .event-card {
+            background: var(--white);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: transform 0.2s, box-shadow 0.2s;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .event-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 40px rgba(0,0,0,0.11);
+        }
+
+        .event-card-banner {
+            height: 6px;
+            background: linear-gradient(90deg, var(--saffron), #f9a857);
+        }
+
+        .event-card-banner.cancelled {
+            background: #ccc;
+        }
+
+        .event-card-body {
+            padding: 24px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .event-card-date {
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: var(--saffron);
+            margin-bottom: 8px;
+        }
+
+        .event-card-title {
+            font-size: 1.05rem;
+            font-weight: 800;
+            color: var(--text-dark);
+            margin-bottom: 8px;
+            line-height: 1.35;
+        }
+
+        .event-card-desc {
+            font-size: 0.855rem;
+            color: var(--text-soft);
+            line-height: 1.7;
+            flex: 1;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .event-card-footer {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-top: 18px;
+            padding-top: 14px;
+            border-top: 1px solid var(--border);
+            gap: 10px;
+        }
+
+        .event-card-location {
+            font-size: 0.78rem;
+            color: var(--text-soft);
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .event-cancelled-badge {
+            font-size: 0.7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            background: #ffeef2;
+            color: #c05080;
+            padding: 3px 10px;
+            border-radius: 50px;
+        }
+
+        /* Admin action buttons — injected by JS only when user is admin */
+        .event-admin-actions {
+            display: flex;
+            gap: 6px;
+            margin-top: 12px;
+        }
+
+        .btn-event-edit, .btn-event-delete {
+            flex: 1;
+            padding: 7px 0;
+            border-radius: 8px;
+            font-family: inherit;
+            font-size: 0.78rem;
+            font-weight: 700;
+            border: none;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-event-edit   { background: #e3f0ff; color: #1976d2; }
+        .btn-event-delete { background: #ffebee; color: #e53935; }
+        .btn-event-edit:hover   { background: #1976d2; color: white; }
+        .btn-event-delete:hover { background: #e53935; color: white; }
+
+        /* ── Pagination ───────────────────────────────────────────────────── */
+        .events-pagination {
+            max-width: 1200px;
+            margin: 40px auto 80px;
+            padding: 0 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+        }
+
+        /* IDs required by events-page.js */
+        #events-prev-btn, #events-next-btn {
+            padding: 10px 24px;
+            border-radius: 10px;
+            font-family: inherit;
+            font-size: 0.875rem;
+            font-weight: 700;
+            border: 1.5px solid var(--border);
+            background: var(--white);
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        #events-prev-btn:hover:not(:disabled),
+        #events-next-btn:hover:not(:disabled) {
+            border-color: var(--teal);
+            color: var(--teal);
+        }
+
+        #events-prev-btn:disabled, #events-next-btn:disabled {
+            opacity: 0.35;
+            cursor: not-allowed;
+        }
+
+        #events-page-info {
+            font-size: 0.85rem;
+            color: var(--text-soft);
+        }
+
+        /* ── Status / Loading ─────────────────────────────────────────────── */
+        #events-status {
+            max-width: 1200px;
+            margin: 24px auto 0;
+            padding: 0 32px;
+            font-size: 0.9rem;
+        }
+
+        .loading-shimmer {
+            background: linear-gradient(90deg, #f0f0ed 25%, #e8e8e5 50%, #f0f0ed 75%);
+            background-size: 200% 100%;
+            animation: shimmer 1.5s infinite;
+            border-radius: var(--radius);
+            height: 220px;
+        }
+
+        @keyframes shimmer {
+            from { background-position: 200% 0; }
+            to   { background-position: -200% 0; }
+        }
+
+        @media (max-width: 768px) {
+            .events-controls, .events-grid-wrap, .events-pagination { padding: 0 20px; }
+            #events-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+    <link rel="stylesheet" href="/assets/css/main.css">
+</head>
+<body>
+
+    <div id="header-placeholder"></div>
+
+    <!-- ── Hero ──────────────────────────────────────────────────────────── -->
+    <div class="events-hero">
+        <div>
+            <h1>📅 Community Events</h1>
+            <p>Meetups, talks, and gatherings for our community</p>
+        </div>
+    </div>
+
+    <!-- ── Controls ───────────────────────────────────────────────────────── -->
+    <div class="events-controls">
+        <!--
+            IDs required by events-page.js:
+              #events-sort   — sort direction select
+              #events-count  — shows "X events"
+        -->
+        <select id="events-sort">
+            <option value="asc">Earliest First</option>
+            <option value="desc">Latest First</option>
+        </select>
+
+        <span id="events-count"></span>
+    </div>
+
+    <!-- ── Status message ─────────────────────────────────────────────────── -->
+    <div id="events-status"></div>
+
+    <!-- ── Event grid ──────────────────────────────────────────────────────── -->
+    <div class="events-grid-wrap">
+        <!--
+            ID required by events-page.js — JS injects .event-card elements here.
+            Do NOT add content manually.
+        -->
+        <div id="events-grid"></div>
+    </div>
+
+    <!-- ── Pagination ─────────────────────────────────────────────────────── -->
+    <div class="events-pagination">
+        <!--
+            IDs required by events-page.js:
+              #events-prev-btn  — previous page button
+              #events-next-btn  — next page button
+              #events-page-info — "Page 1 of 3" text
+        -->
+        <button id="events-prev-btn" disabled>← Previous</button>
+        <span id="events-page-info"></span>
+        <button id="events-next-btn" disabled>Next →</button>
+    </div>
+
+    <div id="footer-placeholder"></div>
+
+    <script type="module" src="/js/main.js"></script>
+    <script type="module" src="/js/pages/events-page.js"></script>
+
+</body>
+</html>

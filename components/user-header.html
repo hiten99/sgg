@@ -1,0 +1,282 @@
+<nav class="user-nav">
+    <div class="user-nav-inner">
+
+        <!-- Brand -->
+        <a href="/index.html#top" class="user-nav-brand">
+            <img src="/images/logo.jpeg" alt="South Gujarat Group" style="height: 48px; width: auto; border-radius: 4px;">
+            <span class="user-nav-brand-text">South Gujarat Group</span>
+        </a>
+
+        <!-- Public links — always visible -->
+        <div class="user-nav-links" id="user-nav-links">
+            <a href="/index.html#about" class="user-nav-link" id="unav-home">About</a>
+            <a href="/events/index.html" class="user-nav-link" id="unav-events">Events</a>
+        </div>
+
+        <!-- Right side: changes based on auth state -->
+        <div class="user-nav-right" id="user-nav-right">
+
+            <!-- Shown when logged OUT -->
+            <div id="unav-guest" class="user-nav-guest">
+                <a href="/auth/login.html" class="user-nav-btn user-nav-btn-ghost" style="color:var(--text-mid);">Sign In</a>
+                <a href="/auth/signup.html" class="user-nav-btn user-nav-btn-primary">Join SGG</a>
+            </div>
+
+            <!-- Shown when logged IN — hidden by default, main.js reveals it -->
+            <div id="unav-member" class="user-nav-member" style="display:none;">
+                <a href="/profile/index.html" class="user-nav-avatar-link" id="unav-profile-link" title="My Profile">
+                    <!-- Avatar: shows 2-letter initials, set by main.js after inject -->
+                    <div class="user-nav-avatar" id="unav-avatar-initials"></div>
+                </a>
+                <!-- Admin shortcut — only shown if user has admin role -->
+                <a href="/admin/index.html" class="user-nav-btn user-nav-btn-admin" id="unav-admin-link" style="display:none;">⚙️ Admin</a>
+                <button class="user-nav-btn user-nav-btn-ghost" id="user-nav-logout-btn">Sign Out</button>
+            </div>
+
+        </div>
+
+        <!-- Mobile hamburger -->
+        <button class="user-nav-toggle" id="user-nav-toggle" aria-label="Toggle menu">
+            <span></span><span></span><span></span>
+        </button>
+
+    </div>
+</nav>
+
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+
+    /* ── User Nav ──────────────────────────────────────────────────────── */
+    .user-nav {
+        background: rgba(250, 250, 248, 0.94);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        border-bottom: 1px solid var(--border, #e8e8e4);
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+    }
+
+    .user-nav-inner {
+        max-width: 1440px;
+        margin: 0 auto;
+        padding: 0 40px;
+        height: 72px;
+        display: flex;
+        align-items: center;
+        gap: 32px;
+    }
+
+    /* Brand */
+    .user-nav-brand {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        text-decoration: none;
+        flex-shrink: 0;
+    }
+
+    .user-nav-brand-icon { font-size: 1.5rem; }
+
+    .user-nav-brand-text {
+        font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: var(--text-dark, #1e1e1e);
+    }
+
+    /* Nav links */
+    .user-nav-links {
+        display: flex;
+        align-items: center;
+        gap: 20px;
+        flex: 1;
+    }
+
+    .user-nav-link {
+        font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+        font-size: 0.875rem;
+        font-weight: 600;
+        color: var(--text-mid, #4a4a4a);
+        text-decoration: none;
+        padding: 6px 14px;
+        border-radius: 8px;
+        transition: all 0.2s;
+        white-space: nowrap;
+    }
+
+    .user-nav-link:hover,
+    .user-nav-link.active {
+        color: #f4831f;
+        background: transparent;
+    }
+
+    /* Right side */
+    .user-nav-right {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        margin-left: auto;
+        flex-shrink: 0;
+    }
+
+    .user-nav-guest,
+    .user-nav-member {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+    }
+
+    /* Buttons */
+    .user-nav-btn {
+        font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+        font-size: 0.85rem;
+        font-weight: 700;
+        cursor: pointer;
+        text-decoration: none;
+        border: none;
+        transition: all 0.2s;
+        white-space: nowrap;
+    }
+
+    .user-nav-btn-primary {
+        background: #f4831f;
+        color: white;
+        border: 1px solid transparent;
+        padding: 8px 20px;
+        border-radius: 50px;
+        box-shadow: 0 4px 14px rgba(244, 131, 31, .3);
+    }
+
+    .user-nav-btn-primary:hover {
+        background: #e07319;
+        transform: translateY(-1px);
+        box-shadow: 0 6px 20px rgba(244, 131, 31, .38);
+    }
+
+    .user-nav-btn-ghost {
+        background: transparent;
+        color: var(--text-mid, #4a4a4a);
+        padding: 6px 14px;
+    }
+
+    .user-nav-btn-ghost:hover {
+        color: #f4831f;
+        background: transparent;
+    }
+
+    /* Admin shortcut pill */
+    .user-nav-btn-admin {
+        background: transparent;
+        color: var(--text-mid, #4a4a4a);
+        border: 1px solid var(--border, #e8e8e4);
+        padding: 6px 12px;
+        border-radius: 50px;
+        font-size: 0.78rem;
+    }
+
+    .user-nav-btn-admin:hover {
+        border-color: #f4831f;
+        color: #f4831f;
+    }
+
+    /* Avatar + username */
+    .user-nav-avatar-link {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        text-decoration: none;
+        padding: 4px 10px 4px 4px;
+        border-radius: 10px;
+        transition: background 0.2s;
+    }
+
+    .user-nav-avatar-link:hover { background: rgba(0,0,0,0.05); }
+
+    .user-nav-avatar {
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, #f4831f, #d96c0c);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 0.8rem;
+        font-weight: 800;
+        color: white;
+        font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+        flex-shrink: 0;
+        text-transform: uppercase;
+    }
+
+    .user-nav-username {
+        font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+        font-size: 0.82rem;
+        font-weight: 600;
+        color: var(--text-dark, #1e1e1e);
+        max-width: 130px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+    /* Mobile toggle */
+    .user-nav-toggle {
+        display: none;
+        flex-direction: column;
+        gap: 5px;
+        background: none;
+        border: none;
+        cursor: pointer;
+        padding: 6px;
+        margin-left: auto;
+    }
+
+    .user-nav-toggle span {
+        display: block;
+        width: 22px;
+        height: 2px;
+        background: var(--text-dark, #1e1e1e);
+        border-radius: 2px;
+        transition: all 0.3s;
+    }
+
+    @media (max-width: 768px) {
+        .user-nav-inner {
+            padding: 0 20px;
+            flex-wrap: wrap;
+            height: auto;
+            min-height: 56px;
+        }
+
+        .user-nav-toggle { display: flex; }
+
+        .user-nav-links,
+        .user-nav-right {
+            display: none;
+            width: 100%;
+            padding: 10px 0 14px;
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 4px;
+        }
+
+        .user-nav-links.open,
+        .user-nav-right.open { display: flex; }
+
+        .user-nav-link { width: 100%; padding: 10px 14px; }
+
+        .user-nav-right { border-top: 1px solid var(--border, #e8e8e4); padding-top: 12px; }
+
+        .user-nav-guest,
+        .user-nav-member {
+            flex-direction: column;
+            align-items: flex-start;
+            width: 100%;
+        }
+
+        .user-nav-btn { width: 100%; text-align: center; display: block; }
+        .user-nav-avatar-link { padding: 8px 0; }
+    }
+</style>
+

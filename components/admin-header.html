@@ -1,0 +1,195 @@
+<nav class="admin-nav">
+    <div class="admin-nav-inner">
+        <!-- Brand -->
+        <a href="/" class="admin-nav-brand">
+            <span class="admin-nav-brand-icon">🏠</span>
+            <span class="admin-nav-brand-text">Community Hub</span>
+            <span class="admin-nav-badge">Admin</span>
+        </a>
+
+        <!-- Admin Links -->
+        <div class="admin-nav-links" id="admin-nav-links">
+            <a href="/admin/index.html"    class="admin-nav-link" id="anav-users">👥 Users</a>
+            <a href="/admin/events.html" class="admin-nav-link" id="anav-events">📅 Events</a>
+            <a href="/admin/carousel.html" class="admin-nav-link" id="anav-carousel">🖼️ Carousel</a>
+            <a href="/directory/index.html" class="admin-nav-link" id="anav-directory">📋 Directory</a>
+        </div>
+
+        <!-- Right side: user info + logout -->
+        <div class="admin-nav-right">
+            <span class="admin-nav-user" id="admin-nav-username">Loading…</span>
+            <button class="admin-nav-logout" id="nav-logout-btn">Sign Out</button>
+        </div>
+
+        <!-- Mobile hamburger -->
+        <button class="admin-nav-toggle" id="admin-nav-toggle" aria-label="Toggle menu">
+            <span></span><span></span><span></span>
+        </button>
+    </div>
+</nav>
+
+<style>
+    /* ── Admin Nav ──────────────────────────────────────────────────────── */
+    .admin-nav {
+        background: rgba(250, 250, 248, 0.94);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        border-bottom: 1px solid var(--border, #e8e8e4);
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+    }
+
+    .admin-nav-inner {
+        max-width: 1440px;
+        margin: 0 auto;
+        padding: 0 40px;
+        height: 72px;
+        display: flex;
+        align-items: center;
+        gap: 32px;
+    }
+
+    /* Brand */
+    .admin-nav-brand {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        text-decoration: none;
+        flex-shrink: 0;
+    }
+
+    .admin-nav-brand-icon {
+        font-size: 1.5rem;
+    }
+
+    .admin-nav-brand-text {
+        font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: var(--text-dark, #1e1e1e);
+    }
+
+    .admin-nav-badge {
+        font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+        font-size: 0.65rem;
+        font-weight: 800;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        background: rgba(244, 131, 31, 0.15);
+        color: #f4831f;
+        border: 1px solid rgba(244, 131, 31, 0.3);
+        padding: 2px 8px;
+        border-radius: 50px;
+    }
+
+    /* Nav links */
+    .admin-nav-links {
+        display: flex;
+        align-items: center;
+        gap: 20px;
+        flex: 1;
+    }
+
+    .admin-nav-link {
+        font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+        font-size: 0.875rem;
+        font-weight: 600;
+        color: var(--text-mid, #4a4a4a);
+        text-decoration: none;
+        padding: 6px 14px;
+        border-radius: 8px;
+        transition: all 0.2s;
+        white-space: nowrap;
+    }
+
+    .admin-nav-link:hover,
+    .admin-nav-link.active {
+        color: #f4831f;
+        background: transparent;
+    }
+
+    /* Right side */
+    .admin-nav-right {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        margin-left: auto;
+    }
+
+    .admin-nav-user {
+        font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+        font-size: 0.85rem;
+        font-weight: 600;
+        color: var(--text-dark, #1e1e1e);
+    }
+
+    .admin-nav-logout {
+        font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+        font-size: 0.8rem;
+        font-weight: 700;
+        background: transparent;
+        color: var(--text-mid, #4a4a4a);
+        border: 1px solid var(--border, #e8e8e4);
+        padding: 6px 14px;
+        border-radius: 50px;
+        cursor: pointer;
+        transition: all 0.2s;
+    }
+
+    .admin-nav-logout:hover {
+        border-color: #f4831f;
+        color: #f4831f;
+    }
+
+    /* Mobile toggle */
+    .admin-nav-toggle {
+        display: none;
+        flex-direction: column;
+        gap: 5px;
+        background: none;
+        border: none;
+        cursor: pointer;
+        padding: 6px;
+        margin-left: auto;
+    }
+
+    .admin-nav-toggle span {
+        display: block;
+        width: 22px;
+        height: 2px;
+        background: rgba(255,255,255,0.7);
+        border-radius: 2px;
+        transition: all 0.3s;
+    }
+
+    @media (max-width: 768px) {
+        .admin-nav-inner {
+            padding: 0 20px;
+            flex-wrap: wrap;
+            height: auto;
+        }
+
+        .admin-nav-toggle { display: flex; }
+
+        .admin-nav-links,
+        .admin-nav-right {
+            display: none;
+            width: 100%;
+            padding: 10px 0;
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 4px;
+        }
+
+        .admin-nav-links.open,
+        .admin-nav-right.open { display: flex; }
+
+        .admin-nav-link { width: 100%; padding: 10px 14px; }
+
+        .admin-nav-right { border-top: 1px solid rgba(255,255,255,0.07); padding-top: 12px; }
+    }
+</style>
+
+<!-- All navbar JS (username, active link, mobile toggle) runs in admin-main.js
+     after this component is injected, because innerHTML never executes scripts. -->

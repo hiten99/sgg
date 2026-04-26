@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Profile | Community Hub</title>
+    <meta name="description" content="Manage your Community Hub profile details.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        main { flex: 1; }
+
+        /* ── Hero ──────────────────────────────────────────────────────────── */
+        .profile-hero {
+            background: linear-gradient(135deg, var(--teal) 0%, #1a5c53 100%);
+            padding: 56px 32px 64px;
+            text-align: center;
+            color: white;
+            position: relative;
+        }
+
+        .profile-avatar-circle {
+            width: 88px;
+            height: 88px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--saffron), var(--teal-dark));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.2rem;
+            font-weight: 800;
+            color: white;
+            margin: 0 auto 16px;
+            border: 4px solid rgba(255,255,255,0.9);
+            box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+            text-transform: uppercase;
+        }
+
+        .profile-hero-name {
+            font-size: 1.4rem;
+            font-weight: 800;
+            margin-bottom: 4px;
+            letter-spacing: -0.02em;
+        }
+
+        .profile-hero-email {
+            font-size: 0.85rem;
+            opacity: 0.65;
+        }
+
+        .profile-hero-badge {
+            display: inline-block;
+            margin-top: 10px;
+            font-size: 0.7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            background: rgba(244, 131, 31, 0.25);
+            color: #f4831f;
+            border: 1px solid rgba(244, 131, 31, 0.4);
+            padding: 3px 12px;
+            border-radius: 50px;
+        }
+
+        /* ── Card ──────────────────────────────────────────────────────────── */
+        .profile-wrap {
+            max-width: 620px;
+            margin: -28px auto 60px;
+            padding: 0 24px;
+        }
+
+        .profile-card {
+            background: var(--white);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            overflow: hidden;
+        }
+
+        .profile-card-header {
+            padding: 22px 28px 18px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .profile-card-header h2 {
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--text-dark);
+        }
+
+        /* Status message inside card */
+        #profile-status {
+            margin: 0 28px;
+            padding: 10px 16px;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            display: none;
+        }
+
+        .profile-status-success { display: block !important; background: var(--green-lt); color: var(--green); }
+        .profile-status-error   { display: block !important; background: var(--red-lt);   color: var(--red);   }
+        .profile-status-info    { display: block !important; background: var(--blue-lt);  color: var(--blue);  }
+        .profile-status-        { display: none !important; }
+
+        /* ── Form ──────────────────────────────────────────────────────────── */
+        #profile-form { padding: 24px 28px 28px; }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+
+        .form-group { margin-bottom: 18px; }
+
+        .form-group label {
+            display: block;
+            font-size: 0.78rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            color: var(--text-soft);
+            margin-bottom: 7px;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px 16px;
+            border: 1.5px solid var(--border);
+            border-radius: 12px;
+            font-family: inherit;
+            font-size: 0.95rem;
+            color: var(--text-dark);
+            background: #fafaf8;
+            outline: none;
+            transition: all 0.2s;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            border-color: var(--teal);
+            background: var(--white);
+            box-shadow: 0 0 0 4px rgba(244, 131, 31, 0.12);
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 90px;
+            line-height: 1.6;
+        }
+
+        .form-divider {
+            border: none;
+            border-top: 1px solid var(--border);
+            margin: 8px 0 22px;
+        }
+
+        .form-section-label {
+            font-size: 0.72rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: var(--text-soft);
+            margin-bottom: 14px;
+        }
+
+        #profile-save-btn {
+            width: 100%;
+            padding: 14px;
+            background: var(--saffron);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-family: inherit;
+            font-size: 0.95rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s;
+            margin-top: 12px;
+            box-shadow: 0 4px 14px rgba(244, 131, 31, .3);
+        }
+
+        #profile-save-btn:hover { 
+            background: #d96c0c; 
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(244, 131, 31, .4);
+        }
+        #profile-save-btn:active { transform: scale(0.99); }
+        #profile-save-btn:disabled { opacity: 0.6; cursor: not-allowed; }
+
+        @media (max-width: 600px) {
+            .form-row { grid-template-columns: 1fr; }
+            .profile-wrap { padding: 0 16px; }
+            #profile-form { padding: 20px 18px 24px; }
+            .profile-card-header { padding: 18px; }
+            #profile-status { margin: 0 18px; }
+        }
+    </style>
+    <link rel="stylesheet" href="/assets/css/main.css?v=1">
+</head>
+<body>
+
+    <!-- Navbar injected here by main.js -->
+    <div id="header-placeholder"></div>
+
+    <main>
+        <!-- Hero — JS fills initials, name, email, role badge -->
+        <div class="profile-hero">
+            <div class="profile-avatar-circle" id="profile-avatar-initials">?</div>
+            <div class="profile-hero-name"    id="profile-hero-name">Loading…</div>
+            <div class="profile-hero-email"   id="profile-hero-email"></div>
+            <div class="profile-hero-badge"   id="profile-hero-badge" style="display:none;"></div>
+        </div>
+
+        <div class="profile-wrap">
+            <div class="profile-card">
+
+                <div class="profile-card-header">
+                    <h2>Edit Profile</h2>
+                </div>
+
+                <!-- Status message — shown/hidden by profile-page.js -->
+                <p id="profile-status"></p>
+
+                <!--
+                    IDs connected to profile-page.js:
+                      #profile-form       — form element
+                      #profile-full-name  — full name input
+                      #profile-phone      — phone input
+                      #profile-city       — city input
+                      #profile-state      — state/province input
+                      #profile-bio        — bio textarea
+                      #profile-save-btn   — submit button
+                      #profile-status     — status / error message
+                -->
+                <form id="profile-form" novalidate>
+
+                    <p class="form-section-label">Personal Information</p>
+
+                    <div>
+                        <div class="form-group">
+                            <label for="profile-full-name">Full Name</label>
+                            <input type="text" id="profile-full-name" name="full_name"
+                                   placeholder="Ravi Patel" required>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="profile-phone">Phone</label>
+                                <input type="tel" id="profile-phone" name="phone"
+                                       placeholder="+1 (555) 000-0000">
+                            </div>
+                            <div class="form-group">
+                                <label for="profile-city">City</label>
+                                <input type="text" id="profile-city" name="city"
+                                       placeholder="Toronto">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="profile-state">State / Province</label>
+                            <input type="text" id="profile-state" name="state"
+                                   placeholder="Ontario">
+                        </div>
+
+                        <hr class="form-divider">
+
+                        <div class="form-group">
+                            <label for="profile-bio">About Me</label>
+                            <textarea id="profile-bio" name="bio"
+                                      placeholder="Tell the community a bit about yourself…"></textarea>
+                        </div>
+
+                        <button type="submit" id="profile-save-btn">Save Profile</button>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </main>
+
+    <div id="footer-placeholder"></div>
+
+    <!-- Load shared header/footer + auth nav listener -->
+    <script type="module" src="/js/main.js"></script>
+    <!-- Page-specific profile logic -->
+    <script type="module" src="/js/pages/profile-page.js"></script>
+
+</body>
+</html>
