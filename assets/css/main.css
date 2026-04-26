@@ -8,8 +8,8 @@ a { text-decoration:none; color:inherit; }
 
 /* Design tokens – match exactly the ones used on the homepage */
 :root {
-  --teal: #f4831f;
-  --teal-dark: #d96c0c;
+  --teal: #2b7a6f;
+  --teal-dark: #1a5c53;
   --saffron: #f4831f;
   --text-dark: #1e1e1e;
   --text-mid: #4a4a4a;

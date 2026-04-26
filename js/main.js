@@ -44,9 +44,11 @@ document.addEventListener('DOMContentLoaded', async () => {
 // ─── Navbar initialisation (runs after component is in the DOM) ───────────────
 async function initNavbar() {
     // Active link highlight
-    const path = window.location.pathname
+    const rawPath = window.location.pathname
+    const path = rawPath.replace(/\/index\.html$/, '') || '/'
     document.querySelectorAll('.user-nav-link').forEach(link => {
-        if (link.getAttribute('href') === path) link.classList.add('active')
+        const href = link.getAttribute('href').split('#')[0].replace(/\/index\.html$/, '') || '/'
+        if (href === path) link.classList.add('active')
     })
 
     // Mobile hamburger

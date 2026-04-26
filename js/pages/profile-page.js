@@ -38,8 +38,6 @@ const FIELDS = {
 
 // ─── DOM refs — hero (visual only) ───────────────────────────────────────────
 const avatarEl  = document.getElementById('profile-avatar-initials')
-const heroName  = document.getElementById('profile-hero-name')
-const heroEmail = document.getElementById('profile-hero-email')
 const heroBadge = document.getElementById('profile-hero-badge')
 
 // ─── Init ─────────────────────────────────────────────────────────────────────
@@ -60,25 +58,20 @@ async function loadProfile() {
         const data = await profile.getOwnProfile()
 
         // ── Populate hero section ────────────────────────────────────────────
-        const displayName = data?.full_name || user?.email || 'Member'
-
-        if (heroName)  heroName.textContent  = displayName
-        if (heroEmail) heroEmail.textContent = user?.email ?? ''
-
-        // Avatar initials from name (up to 2 words)
-        if (avatarEl) {
-            const initials = displayName
-                .split(' ')
-                .slice(0, 2)
-                .map(w => w[0] ?? '')
-                .join('')
-                .toUpperCase()
-            avatarEl.textContent = initials || '?'
+        // Fill hero visuals
+        let initials = '?'
+        if (data.full_name) {
+            const parts = data.full_name.split(/\s+/).filter(Boolean)
+            if (parts.length >= 2) initials = (parts[0][0] + parts[1][0]).toUpperCase()
+            else initials = data.full_name.slice(0, 2).toUpperCase()
+        } else {
+            const em = user.email?.split('@')[0] || ''
+            initials = em.slice(0, 2).toUpperCase()
         }
+        if (avatarEl) avatarEl.textContent = initials || '??'
 
-        // Show role badge for admins
-        if (heroBadge && data?.role === 'admin') {
-            heroBadge.textContent = '👑 Admin'
+        if (heroBadge && data.role === 'admin') {
+            heroBadge.textContent = 'Admin'
             heroBadge.style.display = 'inline-block'
         }
 

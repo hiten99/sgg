@@ -18,8 +18,8 @@
 
         /* ── Hero ──────────────────────────────────────────────────────────── */
         .profile-hero {
-            background: linear-gradient(135deg, var(--teal) 0%, #1a5c53 100%);
-            padding: 56px 32px 64px;
+            background: linear-gradient(135deg, #1e1e2e 0%, var(--teal) 100%);
+            padding: 56px 32px 48px;
             text-align: center;
             color: white;
             position: relative;
@@ -29,7 +29,7 @@
             width: 88px;
             height: 88px;
             border-radius: 50%;
-            background: linear-gradient(135deg, var(--saffron), var(--teal-dark));
+            background: linear-gradient(135deg, var(--saffron), #d96c0c);
             display: flex;
             align-items: center;
             justify-content: center;
@@ -61,17 +61,16 @@
             font-weight: 700;
             text-transform: uppercase;
             letter-spacing: 0.08em;
-            background: rgba(244, 131, 31, 0.25);
-            color: #f4831f;
-            border: 1px solid rgba(244, 131, 31, 0.4);
-            padding: 3px 12px;
+            background: var(--saffron);
+            color: white;
+            padding: 4px 12px;
             border-radius: 50px;
         }
 
         /* ── Card ──────────────────────────────────────────────────────────── */
         .profile-wrap {
             max-width: 620px;
-            margin: -28px auto 60px;
+            margin: 40px auto 60px;
             padding: 0 24px;
         }
 
@@ -218,8 +217,6 @@
         <!-- Hero — JS fills initials, name, email, role badge -->
         <div class="profile-hero">
             <div class="profile-avatar-circle" id="profile-avatar-initials">?</div>
-            <div class="profile-hero-name"    id="profile-hero-name">Loading…</div>
-            <div class="profile-hero-email"   id="profile-hero-email"></div>
             <div class="profile-hero-badge"   id="profile-hero-badge" style="display:none;"></div>
         </div>
 
